@@ -273,36 +273,40 @@ class StirrerLockedError(Exception):
     def __init__(self):
 
         super().__init__(
-            'Try to turn it off and on agian and reinit')
+            'Try to turn it off and on again and reinit')
 
 if __name__ == '__main__':
+    import atexit
     stirrer = Stirrer()
+    atexit.register(stirrer.stop_motor)
     if not stirrer.drive_initialized:
         stirrer.initialize_drive()
 
-    print('run clockwise for 10 sec')
+#    print('run clockwise for 20 sec')
     stirrer.run_clockwise()
-    for i in range(10):
-        time.sleep(1)
-        print(i)
-    stirrer.stop_motor()
+    while True:
+        pass
+#    for i in range(20):
+#        time.sleep(1)
+#        print(i)
+#    stirrer.stop_motor()
 
-    print('run anti-clockwise for 10 sec')
-    stirrer.run_anti_clockwise()
-    for i in range(10):
-        time.sleep(1)
-        print(i)
-    stirrer.stop_motor()
+#    print('run anti-clockwise for 10 sec')
+#    stirrer.run_anti_clockwise()
+#    for i in range(10):
+#        time.sleep(1)
+#        print(i)
+#    stirrer.stop_motor()
 
-    print("Step stirrer")
-    # step stirrer
-    for angle in range(0, 360, 10):
-        try:
-            # Set angle of RC Stirrer:
-            stirrer.current_angle = angle
-        except Exception:
-            pass
-        # Let RC stirrer settle (avoiding transients due to
-        # mechanical oscillations after stopping at a new angle):
-        print(angle)
-        time.sleep(1)
+#    print("Step stirrer")
+#    # step stirrer
+#    for angle in range(0, 360, 10):
+#        try:
+#            # Set angle of RC Stirrer:
+#            stirrer.current_angle = angle
+#        except Exception:
+#            pass
+#        # Let RC stirrer settle (avoiding transients due to
+#        # mechanical oscillations after stopping at a new angle):
+#        print(angle)
+#        time.sleep(1)
