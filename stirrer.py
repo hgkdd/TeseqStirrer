@@ -150,7 +150,9 @@ class Stirrer(object):
     def step_clockwise_by(self, step):
         self._write('DIR:1')
         time.sleep(0.1)
-        self._write(f'RMS:{abs(int(step))}')
+        pos = self.current_angle + step
+        pos = self._clip_angle(pos)
+        self._write(f'RMA:{abs(int(pos))}')
         self._wait2()
         return self.motor_running
 
@@ -164,9 +166,26 @@ class Stirrer(object):
     def step_anti_clockwise_by(self, step):
         self._write('DIR:0')
         time.sleep(0.1)
-        self._write(f'RMA:{abs(int(step))}')
+        pos = self.current_angle - step
+        pos = self._clip_angle(pos)
+        self._write(f'RMA:{abs(int(pos))}')
         self._wait2()
         return self.motor_running
+
+    def goto_angle(self, angle, direction = 1):
+        """
+        direction = 1 -> clockwise
+        """
+        if direction == 1:
+            self._write('DIR:1')
+        else:
+            self._write('DIR:0')
+        time.sleep(0.1)
+        angle = self._clip_angle(angle)
+        self._write(f'RMA:{abs(int(angle))}')
+        self._wait2()
+        return self.motor_running
+
 
     #wait while motor is running
     def _wait(self):

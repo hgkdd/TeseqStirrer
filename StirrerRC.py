@@ -27,20 +27,34 @@ class MainWindow(QMainWindow):
         self.ui.velocity_spinBox.valueChanged.connect(self.velocity_changed)
         self.ui.stop_pushButton.clicked.connect(self.stopp_clicked)
         self.ui.stirmode_start_pushButton.clicked.connect(self.stirrmode_start_clicked)
+        self.ui.tunmode_steo_once_pushButton.clicked.connect(self.tunmode_step_once_clicked)
+        self.ui.tun_mode_abs_go_pushButton.clicked.connect(self.tun_mode_abs_go_clicked)
 
         self.stirrer = Stirrer()
         self.velocity = 50 # in percent
         self.is_initialized = False
 
-        curpos_timer = QtCore.QTimer()
-        curpos_timer.setInterval(500)
-        curpos_timer.timeout.connect(self._update_position)
-        curpos_timer.start()
+        self.curpos_timer = QtCore.QTimer()
+        self.curpos_timer.timeout.connect(self._update_position)
+        self.curpos_timer.start()
 
     def init_clicked(self):
-        self.stirrer.initialize_drive()
-        self.is_initialized = self.stirrer.drive_initialized
-        self._update_position()
+        self.ui.init_pushButton.setEnabled(False)
+        init_timer = QtCore.QTimer()
+        init_timer.singleShot(10, self.stirrer.initialize_drive)
+        self.wait_for_init_timer = QtCore.QTimer()
+        self.wait_for_init_timer.timeout.connect(self._wait_for_initialization)
+        self.wait_for_init_timer.start()
+
+    def _wait_for_initialization(self):
+        if self.is_initialized:
+            return
+        if self.stirrer.motor_running:
+            return
+        elif self.stirrer.drive_initialized:
+            self.is_initialized = True
+            self._update_position()
+            self.wait_for_init_timer.stop()
 
     def velocity_changed(self):
         self.velocity = self.ui.velocity_spinBox.value()
@@ -52,6 +66,7 @@ class MainWindow(QMainWindow):
     def _update_position(self):
         if self.is_initialized:
             pos = self.stirrer.current_angle
+            print(pos)
             self.ui.cur_pos_label.setText(str(pos))
 
     def stirrmode_start_clicked(self):
@@ -61,6 +76,25 @@ class MainWindow(QMainWindow):
                 self.stirrer.run_clockwise()
             else:
                 self.stirrer.run_anti_clockwise()
+
+    def tunmode_step_once_clicked(self):
+        if self.is_initialized:
+            step = self.ui.step_spinBox.value()
+            vel = self.ui.velocity_spinBox.value()
+            if self.ui.tunmode_cw_radioButton.isChecked():
+                self.stirrer.step_clockwise_by(step)
+            else:
+                self.stirrer.step_anti_clockwise_by(step)
+
+    def tun_mode_abs_go_clicked(self):
+        if self.is_initialized:
+            pos = self.ui.tunmode_abs_pos_spinBox.value()
+            if self.ui.tunmode_cw_radioButton.isChecked():
+                direction = 1
+            else:
+                direction = 0
+            self.stirrer.goto_angle(pos, direction=direction)
+
 
     def closeEvent(self, event):
         # fire confirmation box
