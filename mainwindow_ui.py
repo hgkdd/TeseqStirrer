@@ -11,21 +11,28 @@
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
+    QCursor, QFont, QFontDatabase, QGradient,
+    QIcon, QImage, QKeySequence, QLinearGradient,
+    QPainter, QPalette, QPixmap, QRadialGradient,
+    QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
-    QHBoxLayout, QLabel, QMainWindow, QMenuBar,
-    QPushButton, QRadioButton, QSizePolicy, QSpacerItem,
-    QSpinBox, QStatusBar, QTabWidget, QVBoxLayout,
-    QWidget)
+    QHBoxLayout, QLabel, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QRadioButton, QSizePolicy,
+    QSpacerItem, QSpinBox, QStatusBar, QTabWidget,
+    QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(428, 469)
+        self.actionAbout = QAction(MainWindow)
+        self.actionAbout.setObjectName(u"actionAbout")
+        self.actionAbout.setMenuRole(QAction.MenuRole.AboutRole)
+        self.actionQuit = QAction(MainWindow)
+        self.actionQuit.setObjectName(u"actionQuit")
+        self.actionQuit.setMenuRole(QAction.MenuRole.QuitRole)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_3 = QGridLayout(self.centralwidget)
@@ -38,10 +45,10 @@ class Ui_MainWindow(object):
         self.stirrer_mode_tab.setObjectName(u"stirrer_mode_tab")
         self.gridLayout_10 = QGridLayout(self.stirrer_mode_tab)
         self.gridLayout_10.setObjectName(u"gridLayout_10")
-        self.pushButton_4 = QPushButton(self.stirrer_mode_tab)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.stirmode_start_pushButton = QPushButton(self.stirrer_mode_tab)
+        self.stirmode_start_pushButton.setObjectName(u"stirmode_start_pushButton")
 
-        self.gridLayout_10.addWidget(self.pushButton_4, 1, 0, 1, 1)
+        self.gridLayout_10.addWidget(self.stirmode_start_pushButton, 1, 0, 1, 1)
 
         self.groupBox_3 = QGroupBox(self.stirrer_mode_tab)
         self.groupBox_3.setObjectName(u"groupBox_3")
@@ -110,15 +117,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.step_spinBox)
 
-        self.pushButton_5 = QPushButton(self.groupBox_2)
-        self.pushButton_5.setObjectName(u"pushButton_5")
+        self.tunmode_steo_once_pushButton = QPushButton(self.groupBox_2)
+        self.tunmode_steo_once_pushButton.setObjectName(u"tunmode_steo_once_pushButton")
 
-        self.verticalLayout_3.addWidget(self.pushButton_5)
+        self.verticalLayout_3.addWidget(self.tunmode_steo_once_pushButton)
 
-        self.pushButton_6 = QPushButton(self.groupBox_2)
-        self.pushButton_6.setObjectName(u"pushButton_6")
+        self.tunmode_step_cont_pushButton = QPushButton(self.groupBox_2)
+        self.tunmode_step_cont_pushButton.setObjectName(u"tunmode_step_cont_pushButton")
 
-        self.verticalLayout_3.addWidget(self.pushButton_6)
+        self.verticalLayout_3.addWidget(self.tunmode_step_cont_pushButton)
 
 
         self.gridLayout_6.addWidget(self.groupBox_2, 1, 0, 1, 1)
@@ -127,16 +134,16 @@ class Ui_MainWindow(object):
         self.groupBox_5.setObjectName(u"groupBox_5")
         self.verticalLayout_6 = QVBoxLayout(self.groupBox_5)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.spinBox = QSpinBox(self.groupBox_5)
-        self.spinBox.setObjectName(u"spinBox")
-        self.spinBox.setMaximum(359)
+        self.tunmode_abs_pos_spinBox = QSpinBox(self.groupBox_5)
+        self.tunmode_abs_pos_spinBox.setObjectName(u"tunmode_abs_pos_spinBox")
+        self.tunmode_abs_pos_spinBox.setMaximum(359)
 
-        self.verticalLayout_6.addWidget(self.spinBox)
+        self.verticalLayout_6.addWidget(self.tunmode_abs_pos_spinBox)
 
-        self.pushButton_7 = QPushButton(self.groupBox_5)
-        self.pushButton_7.setObjectName(u"pushButton_7")
+        self.tun_mode_abs_go_pushButton = QPushButton(self.groupBox_5)
+        self.tun_mode_abs_go_pushButton.setObjectName(u"tun_mode_abs_go_pushButton")
 
-        self.verticalLayout_6.addWidget(self.pushButton_7)
+        self.verticalLayout_6.addWidget(self.tun_mode_abs_go_pushButton)
 
 
         self.gridLayout_6.addWidget(self.groupBox_5, 2, 0, 1, 1)
@@ -153,13 +160,13 @@ class Ui_MainWindow(object):
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.groupBox = QGroupBox(self.frame)
-        self.groupBox.setObjectName(u"groupBox")
-        self.gridLayout = QGridLayout(self.groupBox)
+        self.init_groupBox = QGroupBox(self.frame)
+        self.init_groupBox.setObjectName(u"init_groupBox")
+        self.gridLayout = QGridLayout(self.init_groupBox)
         self.gridLayout.setObjectName(u"gridLayout")
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.velocity_spinBox = QSpinBox(self.groupBox)
+        self.velocity_spinBox = QSpinBox(self.init_groupBox)
         self.velocity_spinBox.setObjectName(u"velocity_spinBox")
         self.velocity_spinBox.setMinimum(1)
         self.velocity_spinBox.setMaximum(100)
@@ -167,16 +174,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.velocity_spinBox)
 
-        self.pushButton_2 = QPushButton(self.groupBox)
-        self.pushButton_2.setObjectName(u"pushButton_2")
+        self.init_pushButton = QPushButton(self.init_groupBox)
+        self.init_pushButton.setObjectName(u"init_pushButton")
 
-        self.verticalLayout.addWidget(self.pushButton_2)
+        self.verticalLayout.addWidget(self.init_pushButton)
 
 
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
 
-        self.verticalLayout_2.addWidget(self.groupBox)
+        self.verticalLayout_2.addWidget(self.init_groupBox)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -186,38 +193,38 @@ class Ui_MainWindow(object):
         self.groupBox_6.setObjectName(u"groupBox_6")
         self.gridLayout_4 = QGridLayout(self.groupBox_6)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.label = QLabel(self.groupBox_6)
-        self.label.setObjectName(u"label")
+        self.cur_pos_label = QLabel(self.groupBox_6)
+        self.cur_pos_label.setObjectName(u"cur_pos_label")
         font = QFont()
         font.setPointSize(25)
         font.setBold(True)
-        self.label.setFont(font)
-        self.label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.cur_pos_label.setFont(font)
+        self.cur_pos_label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
 
-        self.gridLayout_4.addWidget(self.label, 0, 0, 1, 1, Qt.AlignmentFlag.AlignHCenter)
+        self.gridLayout_4.addWidget(self.cur_pos_label, 0, 0, 1, 1, Qt.AlignmentFlag.AlignHCenter)
 
 
         self.verticalLayout_2.addWidget(self.groupBox_6)
 
-        self.pushButton_3 = QPushButton(self.frame)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.stop_pushButton = QPushButton(self.frame)
+        self.stop_pushButton.setObjectName(u"stop_pushButton")
         font1 = QFont()
         font1.setPointSize(40)
-        self.pushButton_3.setFont(font1)
-        self.pushButton_3.setAutoFillBackground(False)
-        self.pushButton_3.setStyleSheet(u"background-color: rgb(255, 38, 0);\n"
+        self.stop_pushButton.setFont(font1)
+        self.stop_pushButton.setAutoFillBackground(False)
+        self.stop_pushButton.setStyleSheet(u"background-color: rgb(255, 38, 0);\n"
 "color: rgb(255, 255, 255);")
 
-        self.verticalLayout_2.addWidget(self.pushButton_3)
+        self.verticalLayout_2.addWidget(self.stop_pushButton)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_2.addItem(self.verticalSpacer)
 
-        self.pushButton = QPushButton(self.frame)
-        self.pushButton.setObjectName(u"pushButton")
+        self.quit_pushButton = QPushButton(self.frame)
+        self.quit_pushButton.setObjectName(u"quit_pushButton")
 
-        self.verticalLayout_2.addWidget(self.pushButton)
+        self.verticalLayout_2.addWidget(self.quit_pushButton)
 
 
         self.gridLayout_2.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
@@ -232,16 +239,38 @@ class Ui_MainWindow(object):
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 428, 37))
+        self.menuStirrerRC = QMenu(self.menubar)
+        self.menuStirrerRC.setObjectName(u"menuStirrerRC")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        QWidget.setTabOrder(self.velocity_spinBox, self.init_pushButton)
+        QWidget.setTabOrder(self.init_pushButton, self.stirrmode_cw_radioButton)
+        QWidget.setTabOrder(self.stirrmode_cw_radioButton, self.stirrmode_ccw_radioButton)
+        QWidget.setTabOrder(self.stirrmode_ccw_radioButton, self.stirmode_start_pushButton)
+        QWidget.setTabOrder(self.stirmode_start_pushButton, self.tunmode_cw_radioButton)
+        QWidget.setTabOrder(self.tunmode_cw_radioButton, self.tunmode_ccw_radioButton)
+        QWidget.setTabOrder(self.tunmode_ccw_radioButton, self.step_spinBox)
+        QWidget.setTabOrder(self.step_spinBox, self.tunmode_steo_once_pushButton)
+        QWidget.setTabOrder(self.tunmode_steo_once_pushButton, self.tunmode_step_cont_pushButton)
+        QWidget.setTabOrder(self.tunmode_step_cont_pushButton, self.tunmode_abs_pos_spinBox)
+        QWidget.setTabOrder(self.tunmode_abs_pos_spinBox, self.tun_mode_abs_go_pushButton)
+        QWidget.setTabOrder(self.tun_mode_abs_go_pushButton, self.stop_pushButton)
+        QWidget.setTabOrder(self.stop_pushButton, self.quit_pushButton)
+        QWidget.setTabOrder(self.quit_pushButton, self.tabWidget)
+
+        self.menubar.addAction(self.menuStirrerRC.menuAction())
+        self.menuStirrerRC.addAction(self.actionAbout)
+        self.menuStirrerRC.addSeparator()
+        self.menuStirrerRC.addAction(self.actionQuit)
 
         self.retranslateUi(MainWindow)
         self.stirrmode_ccw_radioButton.clicked["bool"].connect(self.tunmode_ccw_radioButton.setChecked)
         self.stirrmode_cw_radioButton.clicked["bool"].connect(self.tunmode_cw_radioButton.setChecked)
         self.tunmode_ccw_radioButton.clicked["bool"].connect(self.stirrmode_ccw_radioButton.setChecked)
         self.tunmode_cw_radioButton.clicked["bool"].connect(self.stirrmode_cw_radioButton.setChecked)
+        self.quit_pushButton.clicked.connect(MainWindow.close)
 
         self.tabWidget.setCurrentIndex(0)
 
@@ -251,7 +280,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Start", None))
+        self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
+        self.actionQuit.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
+        self.stirmode_start_pushButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.groupBox_3.setTitle(QCoreApplication.translate("MainWindow", u"Direction of Rotation", None))
         self.stirrmode_cw_radioButton.setText(QCoreApplication.translate("MainWindow", u"Clockwise", None))
         self.stirrmode_ccw_radioButton.setText(QCoreApplication.translate("MainWindow", u"Counter Clockwise", None))
@@ -262,20 +293,21 @@ class Ui_MainWindow(object):
         self.groupBox_2.setTitle(QCoreApplication.translate("MainWindow", u"Relative Operation", None))
         self.step_spinBox.setSuffix(QCoreApplication.translate("MainWindow", u" deg", None))
         self.step_spinBox.setPrefix(QCoreApplication.translate("MainWindow", u"Step: ", None))
-        self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"Step Once", None))
-        self.pushButton_6.setText(QCoreApplication.translate("MainWindow", u"Step Continiusly", None))
+        self.tunmode_steo_once_pushButton.setText(QCoreApplication.translate("MainWindow", u"Step Once", None))
+        self.tunmode_step_cont_pushButton.setText(QCoreApplication.translate("MainWindow", u"Step Continiusly", None))
         self.groupBox_5.setTitle(QCoreApplication.translate("MainWindow", u"Absolute Operation", None))
-        self.spinBox.setSuffix(QCoreApplication.translate("MainWindow", u" deg", None))
-        self.spinBox.setPrefix(QCoreApplication.translate("MainWindow", u"Position: ", None))
-        self.pushButton_7.setText(QCoreApplication.translate("MainWindow", u"Go", None))
+        self.tunmode_abs_pos_spinBox.setSuffix(QCoreApplication.translate("MainWindow", u" deg", None))
+        self.tunmode_abs_pos_spinBox.setPrefix(QCoreApplication.translate("MainWindow", u"Position: ", None))
+        self.tun_mode_abs_go_pushButton.setText(QCoreApplication.translate("MainWindow", u"Go", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tuner_mode_tab), QCoreApplication.translate("MainWindow", u"Tuner Mode", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Initialization", None))
+        self.init_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Initialization", None))
         self.velocity_spinBox.setSuffix(QCoreApplication.translate("MainWindow", u" %", None))
         self.velocity_spinBox.setPrefix(QCoreApplication.translate("MainWindow", u"Velocity: ", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Init", None))
+        self.init_pushButton.setText(QCoreApplication.translate("MainWindow", u"Init", None))
         self.groupBox_6.setTitle(QCoreApplication.translate("MainWindow", u"Current Position", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"???", None))
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"STOP", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
+        self.cur_pos_label.setText(QCoreApplication.translate("MainWindow", u"???", None))
+        self.stop_pushButton.setText(QCoreApplication.translate("MainWindow", u"STOP", None))
+        self.quit_pushButton.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
+        self.menuStirrerRC.setTitle(QCoreApplication.translate("MainWindow", u"StirrerRC", None))
     # retranslateUi
 

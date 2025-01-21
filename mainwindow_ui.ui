@@ -28,7 +28,7 @@
          </attribute>
          <layout class="QGridLayout" name="gridLayout_10">
           <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="stirmode_start_pushButton">
             <property name="text">
              <string>Start</string>
             </property>
@@ -140,14 +140,14 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="tunmode_steo_once_pushButton">
                <property name="text">
                 <string>Step Once</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_6">
+              <widget class="QPushButton" name="tunmode_step_cont_pushButton">
                <property name="text">
                 <string>Step Continiusly</string>
                </property>
@@ -163,7 +163,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <widget class="QSpinBox" name="spinBox">
+              <widget class="QSpinBox" name="tunmode_abs_pos_spinBox">
                <property name="suffix">
                 <string> deg</string>
                </property>
@@ -176,7 +176,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_7">
+              <widget class="QPushButton" name="tun_mode_abs_go_pushButton">
                <property name="text">
                 <string>Go</string>
                </property>
@@ -201,7 +201,7 @@
          <item row="0" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QGroupBox" name="groupBox">
+            <widget class="QGroupBox" name="init_groupBox">
              <property name="title">
               <string>Initialization</string>
              </property>
@@ -228,7 +228,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_2">
+                 <widget class="QPushButton" name="init_pushButton">
                   <property name="text">
                    <string>Init</string>
                   </property>
@@ -259,7 +259,7 @@
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
               <item row="0" column="0" alignment="Qt::AlignmentFlag::AlignHCenter">
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="cur_pos_label">
                 <property name="font">
                  <font>
                   <pointsize>25</pointsize>
@@ -278,7 +278,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="stop_pushButton">
              <property name="font">
               <font>
                <pointsize>40</pointsize>
@@ -310,7 +310,7 @@ color: rgb(255, 255, 255);</string>
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="quit_pushButton">
              <property name="text">
               <string>Quit</string>
              </property>
@@ -334,9 +334,51 @@ color: rgb(255, 255, 255);</string>
      <height>37</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuStirrerRC">
+    <property name="title">
+     <string>StirrerRC</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <addaction name="menuStirrerRC"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::AboutRole</enum>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::QuitRole</enum>
+   </property>
+  </action>
  </widget>
+ <tabstops>
+  <tabstop>velocity_spinBox</tabstop>
+  <tabstop>init_pushButton</tabstop>
+  <tabstop>stirrmode_cw_radioButton</tabstop>
+  <tabstop>stirrmode_ccw_radioButton</tabstop>
+  <tabstop>stirmode_start_pushButton</tabstop>
+  <tabstop>tunmode_cw_radioButton</tabstop>
+  <tabstop>tunmode_ccw_radioButton</tabstop>
+  <tabstop>step_spinBox</tabstop>
+  <tabstop>tunmode_steo_once_pushButton</tabstop>
+  <tabstop>tunmode_step_cont_pushButton</tabstop>
+  <tabstop>tunmode_abs_pos_spinBox</tabstop>
+  <tabstop>tun_mode_abs_go_pushButton</tabstop>
+  <tabstop>stop_pushButton</tabstop>
+  <tabstop>quit_pushButton</tabstop>
+  <tabstop>tabWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -400,6 +442,22 @@ color: rgb(255, 255, 255);</string>
     <hint type="destinationlabel">
      <x>223</x>
      <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>quit_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>329</x>
+     <y>399</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>234</y>
     </hint>
    </hints>
   </connection>
