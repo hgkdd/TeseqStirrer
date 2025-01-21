@@ -19,7 +19,7 @@ class Stirrer(object):
                     "Please check SYNC position and restart the controller!")
 
     default_port_parameters = {
-        'port': '/dev/ttyUSB1',
+        'port': '/dev/stirrer',
         'baudrate': 9600,
         'bytesize': serial.EIGHTBITS,
         'parity': serial.PARITY_NONE,
