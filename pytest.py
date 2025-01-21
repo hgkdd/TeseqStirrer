@@ -60,7 +60,7 @@ class stirrer(object):
         ans=self._ask('INIT')
         self._wait()
         if not self.drive_init_ok:
-            raise UserError
+            raise ValueError("Drive init failed.")
         # set maxspeed, minspeed and acc to save and valid values
         if maxspeed is None:
             maxspeed=6
@@ -116,9 +116,9 @@ class stirrer(object):
 if __name__ == '__main__':
     from numpy import linspace
     dev=stirrer()
-    print "Init stirrer ..."
+    print("Init stirrer ...")
     ang=dev.Init()
-    print "Angle after INIT:", ang
+    print("Angle after INIT:", ang)
     #info=dev.Info()
     #print "Drive parameters:", info 
     
@@ -133,4 +133,4 @@ if __name__ == '__main__':
         
     for pos in linspace(-100, 400, num=5, endpoint=True):
         ang=dev.Goto(pos)
-        print time.time(), pos, ang
+        print(time.time(), pos, ang)
