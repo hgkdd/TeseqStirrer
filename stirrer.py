@@ -5,13 +5,6 @@ import serial
 
 class Stirrer(object):
     """
-    TODO:
-    - Funktionen implementieren
-        - RMT :: Start of the rotation with the value of DEG:X
-        - DEG:X :: Setting of the rotation angle
-        - RMS :: start continuous rotation
-        - RMR:X :: raltive rotation current angle + X
-
     """
     # the read termination is a space with a carriage return!
     read_termination = ' \r'
@@ -54,6 +47,7 @@ class Stirrer(object):
         self._create_serial_port()
         if not do_not_open:
             self._status()
+        self.next_angle = None
 
     def _create_serial_port(self):
         self.port = serial.Serial(
@@ -63,12 +57,9 @@ class Stirrer(object):
     def _write(self, command):
         self.port.reset_input_buffer()
         self.port.reset_output_buffer()
-
         bytes_written = self.port.write(
             f"{command}{self.write_termination}".encode())
-
         self.port.flush()
-
         return bytes_written
 
     def _read(self, size):
@@ -80,16 +71,13 @@ class Stirrer(object):
 
     def _query(self, command):
         self._write(command)
-
-        while self.port.inWaiting() == 0:
+        while self.port.in_waiting == 0:
             time.sleep(self._status_query_delay)
-
         answer = []
-        while self.port.inWaiting() > 0:
-            partial = self._read(self.port.inWaiting())
+        while self.port.in_waiting > 0:
+            partial = self._read(self.port.in_waiting)
             answer.append(partial)
             time.sleep(.01)
-
         answer = ''.join(answer)
         return answer
 
@@ -98,15 +86,19 @@ class Stirrer(object):
         self._status()
         return self._current_angle
 
-    @current_angle.setter
-    def current_angle(self, angle):
+    def _clip_angle(self, angle):
         # angle only values 0 <= angle < 360 are allowed
         # check if the angle needs unwraping
         while angle >= 360:
             angle -= 360
         while angle < 0:
             angle += 360
+        return angle
 
+    @current_angle.setter
+    def current_angle(self, angle):
+        angle = self._clip_angle(angle)
+        # Move Absolute
         self._write(f'RMA:{angle}')
         self._wait()
 
@@ -155,6 +147,13 @@ class Stirrer(object):
         self._wait2()
         return self.motor_running
 
+    def step_clockwise_by(self, step):
+        self._write('DIR:1')
+        time.sleep(0.1)
+        self._write(f'RMS:{abs(int(step))}')
+        self._wait2()
+        return self.motor_running
+
     def run_anti_clockwise(self):
         self._write('DIR:0')
         time.sleep(0.1)
@@ -162,7 +161,13 @@ class Stirrer(object):
         self._wait2()
         return self.motor_running
 
-        
+    def step_anti_clockwise_by(self, step):
+        self._write('DIR:0')
+        time.sleep(0.1)
+        self._write(f'RMA:{abs(int(step))}')
+        self._wait2()
+        return self.motor_running
+
     #wait while motor is running
     def _wait(self):
         wait_interval = 0.3
@@ -245,12 +250,33 @@ class Stirrer(object):
                 f"Received: \"{answer}\"")
             raise exception
 
+    def set_next_angle(self, angle):
+        self.next_angle = self._clip_angle(angle)
+        self._write(f'DEG:{self.next_angle}')
+
+    def goto_next_angle(self):
+        if not self.next_angle:
+            return
+        # Move Absolute to stored position
+        self._write('RMT')
+        self._wait()
+
+        if self._angle_error < abs(self.current_angle - self.next_angle):
+            raise AngleError(
+                self.next_angle,
+                self.current_angle,
+                self._angle_error)
+        if self._error:
+            raise Exception(self._error_message)
+
+
     def close(self):
         self.port.close()
-
         self._drive_initialized = False
         #self._
 
+    def __del__(self):
+        self.port.close()
 
 class AngleError(Exception):
 
