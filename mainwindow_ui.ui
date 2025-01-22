@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>428</width>
-    <height>469</height>
+    <width>429</width>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -114,71 +114,102 @@
             </layout>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QGroupBox" name="groupBox_2">
+          <item row="3" column="0">
+           <widget class="QGroupBox" name="groupBox_5">
             <property name="title">
-             <string>Relative Operation</string>
+             <string>Absolute Operation</string>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <widget class="QSpinBox" name="step_spinBox">
-               <property name="suffix">
-                <string> deg</string>
+            <layout class="QFormLayout" name="formLayout_2">
+             <item row="1" column="1">
+              <widget class="QPushButton" name="tun_mode_abs_go_pushButton">
+               <property name="text">
+                <string>Go</string>
                </property>
-               <property name="prefix">
-                <string>Step: </string>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Angle:</string>
                </property>
-               <property name="minimum">
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="tunmode_abs_pos_doubleSpinBox">
+               <property name="decimals">
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>360</number>
-               </property>
-               <property name="value">
-                <number>5</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="tunmode_steo_once_pushButton">
-               <property name="text">
-                <string>Step Once</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="tunmode_step_cont_pushButton">
-               <property name="text">
-                <string>Step Continiusly</string>
+                <double>360.000000000000000</double>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QGroupBox" name="groupBox_5">
+          <item row="1" column="0">
+           <widget class="QGroupBox" name="groupBox_2">
             <property name="title">
-             <string>Absolute Operation</string>
+             <string>Relative Operation</string>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <widget class="QSpinBox" name="tunmode_abs_pos_spinBox">
-               <property name="suffix">
-                <string> deg</string>
-               </property>
-               <property name="prefix">
-                <string>Position: </string>
-               </property>
-               <property name="maximum">
-                <number>359</number>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Step:</string>
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QPushButton" name="tun_mode_abs_go_pushButton">
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="step_doubleSpinBox">
+               <property name="suffix">
+                <string> deg</string>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <double>360.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>5.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="tunmode_step_once_pushButton">
                <property name="text">
-                <string>Go</string>
+                <string>Step Once</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Time:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDoubleSpinBox" name="tun_mode_time_doubleSpinBox">
+               <property name="suffix">
+                <string> s</string>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <double>3600.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QPushButton" name="tunmode_step_cont_pushButton">
+               <property name="text">
+                <string>Step Continuously</string>
                </property>
               </widget>
              </item>
@@ -210,6 +241,9 @@
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
                  <widget class="QSpinBox" name="velocity_spinBox">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="suffix">
                    <string> %</string>
                   </property>
@@ -330,8 +364,8 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>428</width>
-     <height>37</height>
+     <width>429</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuStirrerRC">
@@ -370,11 +404,6 @@ color: rgb(255, 255, 255);</string>
   <tabstop>stirmode_start_pushButton</tabstop>
   <tabstop>tunmode_cw_radioButton</tabstop>
   <tabstop>tunmode_ccw_radioButton</tabstop>
-  <tabstop>step_spinBox</tabstop>
-  <tabstop>tunmode_steo_once_pushButton</tabstop>
-  <tabstop>tunmode_step_cont_pushButton</tabstop>
-  <tabstop>tunmode_abs_pos_spinBox</tabstop>
-  <tabstop>tun_mode_abs_go_pushButton</tabstop>
   <tabstop>stop_pushButton</tabstop>
   <tabstop>quit_pushButton</tabstop>
   <tabstop>tabWidget</tabstop>

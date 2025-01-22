@@ -14,6 +14,7 @@ class Stirrer(object):
     # delay between query calls
     _status_query_delay = 0.3
     _angle_error = 0.5
+    _inter_cmd_wait_time = 0.05  # in seconds
 
     lock_message = ("STIRRER Controller V1.50 is locked. "
                     "Please check SYNC position and restart the controller!")
@@ -118,6 +119,9 @@ class Stirrer(object):
     @property
     def drive_initialized(self):
         self._status()
+        if self.motor_running:
+            return False
+        # print(self._drive_initialized)
         return self._drive_initialized
 
     @property
@@ -131,8 +135,13 @@ class Stirrer(object):
         return self._error_message
 
     def initialize_drive(self):
-        self._write('INIT')
-        self._wait()
+        try:
+            self._status()
+            if self.drive_initialized:
+                return self.drive_initialized
+        except:
+            self._write('INIT')
+            self._wait()
         return self.drive_initialized
 
     def stop_motor(self):
@@ -142,14 +151,14 @@ class Stirrer(object):
 
     def run_clockwise(self):
         self._write('DIR:1')
-        time.sleep(0.1)
+        time.sleep(self._inter_cmd_wait_time)
         self._write('RMS')
         self._wait2()
         return self.motor_running
 
     def step_clockwise_by(self, step):
         self._write('DIR:1')
-        time.sleep(0.1)
+        time.sleep(self._inter_cmd_wait_time)
         pos = self.current_angle + step
         pos = self._clip_angle(pos)
         self._write(f'RMA:{abs(int(pos))}')
@@ -158,14 +167,14 @@ class Stirrer(object):
 
     def run_anti_clockwise(self):
         self._write('DIR:0')
-        time.sleep(0.1)
+        time.sleep(self._inter_cmd_wait_time)
         self._write('RMS')
         self._wait2()
         return self.motor_running
 
     def step_anti_clockwise_by(self, step):
         self._write('DIR:0')
-        time.sleep(0.1)
+        time.sleep(self._inter_cmd_wait_time)
         pos = self.current_angle - step
         pos = self._clip_angle(pos)
         self._write(f'RMA:{abs(int(pos))}')
@@ -180,7 +189,7 @@ class Stirrer(object):
             self._write('DIR:1')
         else:
             self._write('DIR:0')
-        time.sleep(0.1)
+        time.sleep(self._inter_cmd_wait_time)
         angle = self._clip_angle(angle)
         self._write(f'RMA:{abs(int(angle))}')
         self._wait2()
