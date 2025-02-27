@@ -135,11 +135,8 @@ class Stirrer(object):
         return self._error_message
 
     def initialize_drive(self):
-        try:
-            self._status()
-            if self.drive_initialized:
-                return self.drive_initialized
-        except:
+        self._status()
+        if not self.drive_initialized:
             self._write('INIT')
             self._wait()
         return self.drive_initialized
