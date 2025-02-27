@@ -2,10 +2,8 @@ import sys
 import itertools
 
 from PySide6 import QtCore
-from PySide6.QtCore import (Qt, QLocale, QSettings)
-from PySide6.QtGui import (QStandardItemModel, QStandardItem)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox,
-                               QFileDialog, QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QLocale, QSettings)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox)
 
 from stirrer import Stirrer
 
