@@ -40,9 +40,11 @@ class Stirrer(object):
 
     def __init__(
             self,
-            port_parameters={},
+            port_parameters=None,
             status_retries=10,
             do_not_open=False):
+        if port_parameters is None:
+            port_parameters = {}
         self.status_retries = status_retries
         self.port_parameters = port_parameters
         self._create_serial_port()
@@ -266,9 +268,6 @@ class Stirrer(object):
             except ValueError:
                 print(f"Unparsable device message {answer}")
                 time.sleep(self._status_query_delay)
-            else:
-                # querying the status successful
-                break
         else:
             exception = Exception(
                 f"Current Stirrer State could not be queried, "
